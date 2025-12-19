@@ -24,7 +24,7 @@ BUCKET_NAME = os.getenv("AWS_S3_BUCKET_NAME")
 def get_tokens_for_user(user):
     try:
         refresh = RefreshToken.for_user(user)
-        access = refresh.access_token  # This is correct
+        access = refresh.access_token 
 
         return {
             "refresh": str(refresh),
@@ -34,7 +34,6 @@ def get_tokens_for_user(user):
         import traceback
 
         traceback.print_exc()
-        # Use DRF Response only in views
         return {"error": str(e)}
 
 

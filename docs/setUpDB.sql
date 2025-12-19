@@ -1,6 +1,6 @@
 --create user and grant him permission 
 CREATE DATABASE refDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON refDB.* TO 'django_user'@'localhost' IDENTIFIED BY 'refpwd';
+GRANT ALL PRIVILEGES ON refDB.* TO 'django_user'@'localhost' IDENTIFIED BY 'refpwd';--creds are for local dev only
 FLUSH PRIVILEGES;
 
 --create tables
