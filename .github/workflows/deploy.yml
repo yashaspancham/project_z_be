@@ -18,7 +18,7 @@ jobs:
           script: |
             cd /home/ec2-user/reflections
             git pull origin main
-
+            cd project_z_be
             cat <<EOF > .env
             DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
             DEBUG=False
