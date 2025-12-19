@@ -22,7 +22,7 @@ jobs:
             DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
             DEBUG=False
             ACCESS_TOKEN_LIFETIME=${{ secrets.ACCESS_TOKEN_LIFETIME }}
-            REFRESH_TOKEN_LIFETIM=${{ secrets.REFRESH_TOKEN_LIFETIM }}
+            REFRESH_TOKEN_LIFETIME=${{ secrets.REFRESH_TOKEN_LIFETIME }}
             ROTATE_REFRESH_TOKENS=${{ secrets.ROTATE_REFRESH_TOKENS }}
             BLACKLIST_AFTER_ROTATION=${{ secrets.BLACKLIST_AFTER_ROTATION }}
 
