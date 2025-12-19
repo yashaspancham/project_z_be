@@ -16,9 +16,8 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ec2-user/reflections
-            git pull origin main
             cd project_z_be
+            git pull origin main
             cat <<EOF > .env
             DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
             DEBUG=False
