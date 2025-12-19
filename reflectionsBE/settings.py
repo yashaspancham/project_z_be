@@ -115,7 +115,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 # This should solve cors
-CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_ALL_ORIGINS = os.getenv("CORS_ALLOW_ALL_ORIGINS") == "True"
+
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
+
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
