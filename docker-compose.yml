@@ -5,10 +5,29 @@ services:
     build: .
     container_name: reflections-be
     restart: always
-    command: gunicorn reflectionsBE.wsgi:application --bind 0.0.0.0:8000 --workers 4
+    command: gunicorn reflectionsBE.wsgi:application --bind 0.0.0.0:8000 --workers 1
     ports:
-      - "8000:8000"   # Django accessible on host EC2 port 8000
+      - "8000:8000"
     env_file:
-      - .env         # contains DB credentials pointing to remote MySQL EC2
+      - .env
     volumes:
       - .:/app
+      
+  #Will not add prometheus and grafana as I want to use small instances(t2.micro-1GB ram and at the end the net size will be around 900 mb memory at rest 
+  # prometheus:
+  #   image: prom/prometheus
+  #   container_name: prometheus
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #   ports:
+  #     - "9090:9090"
+  #   depends_on:
+  #     - web
+
+  # grafana:
+  #   image: grafana/grafana
+  #   container_name: grafana
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - prometheus

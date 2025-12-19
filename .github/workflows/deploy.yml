@@ -1,0 +1,51 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH into EC2 and deploy
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ec2-user/reflections
+            git pull origin main
+
+            cat <<EOF > .env
+            DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
+            DEBUG=False
+            ACCESS_TOKEN_LIFETIME={{ secrets.ACCESS_TOKEN_LIFETIME }}
+            REFRESH_TOKEN_LIFETIM={{ secrets.REFRESH_TOKEN_LIFETIM }}
+            ROTATE_REFRESH_TOKENS={{ secrets.ROTATE_REFRESH_TOKENS }}
+            BLACKLIST_AFTER_ROTATION={{ secrets.BLACKLIST_AFTER_ROTATION }}
+
+            
+            AWS_REGION={{ secrets.AWS_REGION }}
+            AWS_S3_BUCKET_NAME={{ secrets.AWS_S3_BUCKET_NAME }}
+            AWS_ACCESS_KEY_ID={{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY={{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+
+            DB_ENGINE=${{ secrets.DB_ENGINE }}
+            DB_NAME=${{ secrets.DB_NAME }}
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            DB_HOST=${{ secrets.DB_HOST }}
+            DB_PORT=${{ secrets.DB_PORT }}
+            DB_ROOT_PASSWORD={{ secrets.DB_ROOT_PASSWORD }}
+
+            CORS_ALLOW_ALL_ORIGINS={{ secrets.CORS_ALLOW_ALL_ORIGINS}}
+            CORS_ALLOWED_ORIGINS={{ secrets.CORS_ALLOWED_ORIGINS}}
+            ALLOWED_HOSTS={{ secrets.ALLOWED_HOSTS}}
+            EOF
+
+            docker compose down
+            docker compose up -d --build
